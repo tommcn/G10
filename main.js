@@ -20,6 +20,7 @@ function createTable()
             var td = document.createElement('td');
             var button = `<button id='${i}-${j}' onclick='eat(${i}, ${j})'>Eat</button>`;
             td.innerHTML = button;
+            td.style.backgroundColor = "white";
             tr.appendChild(td);
         }
         table.appendChild(tr);
@@ -35,7 +36,7 @@ function createTable()
 function eat(x, y)
 {
     var table = document.getElementById('choc_table');
-    document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor = current_turn;
+    var sel_color = document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor;
     
     for (var r = 0, n = table.rows.length; r < n; r++) {
         for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
@@ -43,17 +44,20 @@ function eat(x, y)
             {
                 var bac_color = document.getElementById(`${r}-${c}`).parentElement.style.backgroundColor;
                 
-                if (bac_color == "black")
+                if (sel_color == "black")
                 {
                     alert(`${current_turn} lost!`);
-                    break;
+                    return 0;
                 }
                 else if (bac_color != "red" && bac_color != "blue" && bac_color != "black")
                 {
+                    document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor = current_turn;
                     document.getElementById(`${r}-${c}`).parentElement.style.backgroundColor = current_turn;
                 }
+
                 
             }
+            
         }
     }
     if (current_turn == "red")
@@ -65,6 +69,18 @@ function eat(x, y)
     addHistory();
     
     nb_turns = nb_turns + 1;
+
+    for (var r = 0, n = table.rows.length; r < n; r++) {
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+            var cur_color = document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor
+            if (cur_color == "white" || cur_color == "blue" || cur_color == "red")
+            {
+                return 0;
+            }
+        }
+    }
+    alert(current_turn + " has no more options");
+
 }
 
 
