@@ -1,0 +1,20 @@
+h1 {
+    color: red;
+}
+
+table {
+    width: 50%;
+    height: 800px;
+}
+table, th, td {
+    border: 1px solid black;
+}
+
+.history {
+    width: 10%;
+    height: 160px;
+}
+
+.history > tr > td > button {
+    visibility: hidden;
+}
