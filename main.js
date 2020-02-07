@@ -7,6 +7,9 @@ var nb_turns = 1;
 
 function createTable()
 {
+    current_turn = "red";
+    nb_turns = 1;
+
     var table = document.createElement('table');
     var rows = document.getElementById("rows").value;
     var cols = document.getElementById("cols").value;
@@ -25,7 +28,6 @@ function createTable()
         }
         table.appendChild(tr);
     }
-    console.log(table);
     table.setAttribute("id", "choc_table");
     document.getElementById("chocolate").innerHTML = "";
     document.getElementById("chocolate").appendChild(table);
@@ -35,51 +37,50 @@ function createTable()
 
 function eat(x, y)
 {
+    console.log(x, y);
     var table = document.getElementById('choc_table');
     var sel_color = document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor;
-    
     for (var r = 0, n = table.rows.length; r < n; r++) {
         for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
             if (r <= x && c >= y)
             {
                 var bac_color = document.getElementById(`${r}-${c}`).parentElement.style.backgroundColor;
-                
+
                 if (sel_color == "black")
                 {
                     alert(`${current_turn} lost!`);
                     return 0;
-                }
-                else if (bac_color != "red" && bac_color != "blue" && bac_color != "black")
+                } else if (bac_color != "red" && bac_color != "blue")
                 {
                     document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor = current_turn;
                     document.getElementById(`${r}-${c}`).parentElement.style.backgroundColor = current_turn;
-                }
 
-                
+                    var new_el = document.createElement("p");
+                    new_el.innerText = nb_turns;
+                    new_el.setAttribute("id", `${r}-${c}`);
+
+                    document.getElementById(`${r}-${c}`).parentNode.replaceChild(new_el, document.getElementById(`${r}-${c}`));
+                    
+                }             
             }
-            
         }
     }
+
     if (current_turn == "red")
     {
         current_turn = "blue";
     } else {
         current_turn = "red";
     }
-    addHistory();
-    
-    nb_turns = nb_turns + 1;
+    var new_el = document.createElement("p");
+    new_el.innerText = nb_turns;
+    new_el.setAttribute("id", `${x}-${y}`);
 
-    for (var r = 0, n = table.rows.length; r < n; r++) {
-        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
-            var cur_color = document.getElementById(`${x}-${y}`).parentElement.style.backgroundColor
-            if (cur_color == "white" || cur_color == "blue" || cur_color == "red")
-            {
-                return 0;
-            }
-        }
-    }
-    alert(current_turn + " has no more options");
+    document.getElementById(`${x}-${y}`).parentNode.replaceChild(new_el, document.getElementById(`${x}-${y}`));
+
+    addHistory();
+    // alert(current_turn + " has no more options");
+    nb_turns = nb_turns + 1;
 
 }
 
