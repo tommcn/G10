@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
+    createTable();
 });
 
 var current_turn = "red";
@@ -21,7 +22,7 @@ function createTable()
         for (var j = 0; j < nb_cols; j++)
         {
             var td = document.createElement('td');
-            var button = `<button id='${i}-${j}' onclick='eat(${i}, ${j})'>Eat</button>`;
+            var button = `<button id='${i}-${j}' onclick='eat(${i}, ${j})'>Eat</button><p class="coord">(${j+1}; ${i+1})</p>`;
             td.innerHTML = button;
             td.style.backgroundColor = "white";
             tr.appendChild(td);
@@ -104,4 +105,12 @@ function addHistory()
     document.body.appendChild(out);
     var br = document.createElement("br");
     document.body.appendChild(br);
+}
+
+function enterFull()
+{
+    elem = document.getElementById("chocolate");
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    }
 }
